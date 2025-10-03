@@ -1,19 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask
 import os, psycopg2
 
 app = Flask(__name__)
 
-@app.route("/", methods=['GET', 'POST'])
-def index():
-	env_name = os.getenv('FLASK_ENV', "Please set FLASK_ENV")
-	if request.method == 'POST':
-		if request.form.get('version') == 'Get version':
-			return env_name
-		elif  request.form.get('db') == 'Get DB':
-			return ' '.join(map(str, get_records()))
-
-	return render_template("index.html")
-    
+@app.route("/db", methods=['GET'])
+def get_db():
+	return ' '.join(map(str, get_records()))
 
 def get_db_cursor():
   pg_connection_dict = {
@@ -27,11 +19,10 @@ def get_db_cursor():
 
 def get_records():
   cursor=get_db_cursor()
-  query="SELECT * FROM "+os.getenv('POSTGRES_TABLE', "Please set POSTGRES_TABLE")+";"
+  query=f"SELECT * FROM {os.getenv('POSTGRES_TABLE', 'Please set POSTGRES_TABLE')};"
   cursor.execute(query)
   return cursor.fetchall()
 
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=7000)
-
+	app.run(host='0.0.0.0', port=os.getenv('PORT_BACKEND', 80))

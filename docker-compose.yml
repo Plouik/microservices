@@ -17,3 +17,7 @@ services:
       - .env
     volumes:
       - ./dataset:/docker-entrypoint-initdb.d
+  frontend:
+    build: frontend
+    env_file:
+      - .env
