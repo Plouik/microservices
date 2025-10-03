@@ -1,5 +1,2 @@
 flask==2.1.2
 psycopg2-binary==2.9.9
-
-pip3 install -r requirements.txt
-python3 monAPP.py
