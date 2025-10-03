@@ -1,5 +1,8 @@
 from flask import Flask
 import os, psycopg2
+import time
+
+time.sleep(1)
 
 app = Flask(__name__)
 
