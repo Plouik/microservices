@@ -5,12 +5,15 @@ services:
       - .env
     depends_on:
       - postgres
+  nginx:
+    build: nginx
     ports:
       - 7000:7000
+    depends_on:
+      - backend
   postgres:
     image: postgres    
     env_file:
       - .env
     volumes:
       - ./dataset:/docker-entrypoint-initdb.d
-  
